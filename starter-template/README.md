@@ -83,7 +83,19 @@ Missing `published` means the section is published.
 
 ### Cover images
 
-External `cover-image` URLs are downloaded automatically to `static/covers/` by `Github Actions` when you open a pull request.
+You can leave `cover-image` as an external URL, or download external cover images into `static/covers/` when you want local copies:
+
+```bash
+npx oddments covers
+```
+
+This rewrites matching exhibit frontmatter from external URLs to local `/covers/...` paths. Existing local cover files are reused, not overwritten.
+
+Preview the changes first with:
+
+```bash
+npx oddments covers --dry-run
+```
 
 To add a cover image locally, place the file in `static/covers/` and set:
 

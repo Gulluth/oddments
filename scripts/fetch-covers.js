@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 // Fetches external cover-image URLs from oddments/, saves to static/covers/,
 // and rewrites frontmatter in-place to use local paths.
-// Idempotent: skips exhibits whose cover-image already points to a local path.
 
-import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
-import { join, extname, basename } from 'node:path'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { basename, extname, join, relative } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
 
 const ODDMENTS_DIR = 'oddments'
 const COVERS_DIR = 'static/covers'
+const DATE_PREFIX = /^\d{4}-\d{2}-\d{2}-/
 
 function getMarkdownFiles(dir) {
   try {
@@ -23,50 +24,118 @@ function getMarkdownFiles(dir) {
   }
 }
 
-async function main() {
-  mkdirSync(COVERS_DIR, { recursive: true })
-  const files = getMarkdownFiles(ODDMENTS_DIR)
-  let fetched = 0
-  let rewrote = 0
+function coverPaths(rootDir, filepath, coverUrl) {
+  const exhibitSlug = basename(filepath, '.md').replace(DATE_PREFIX, '')
+  const ext = extname(new URL(coverUrl).pathname) || '.jpg'
+  const filename = `${exhibitSlug}${ext}`
+  const destPath = join(rootDir, COVERS_DIR, filename)
+  const localPath = `/covers/${filename}`
+  return { destPath, localPath }
+}
+
+async function downloadCover(coverUrl, destPath, fetchImpl) {
+  const res = await fetchImpl(coverUrl)
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  writeFileSync(destPath, Buffer.from(await res.arrayBuffer()))
+}
+
+export async function fetchCovers(options = {}) {
+  const rootDir = options.rootDir ?? process.cwd()
+  const dryRun = options.dryRun ?? false
+  const fetchImpl = options.fetchImpl ?? globalThis.fetch
+  const files = getMarkdownFiles(join(rootDir, ODDMENTS_DIR))
+  const results = []
+
+  if (!dryRun) mkdirSync(join(rootDir, COVERS_DIR), { recursive: true })
 
   for (const filepath of files) {
-    const raw = readFileSync(filepath, 'utf-8')
+    const raw = readFileSync(filepath, 'utf8')
     const { data } = matter(raw)
     const coverUrl = data['cover-image']
 
     if (!coverUrl || typeof coverUrl !== 'string' || !coverUrl.startsWith('http')) continue
 
-    const exhibitSlug = basename(filepath, '.md').replace(/^\d{4}-\d{2}-\d{2}-/, '')
-    const ext = extname(new URL(coverUrl).pathname) || '.jpg'
-    const filename = `${exhibitSlug}${ext}`
-    const destPath = join(COVERS_DIR, filename)
-    const localPath = `/covers/${filename}`
+    let paths
+    try {
+      paths = coverPaths(rootDir, filepath, coverUrl)
+    } catch (err) {
+      results.push({
+        status: 'failed',
+        file: relative(rootDir, filepath),
+        url: coverUrl,
+        error: err.message,
+      })
+      continue
+    }
 
-    if (!existsSync(destPath)) {
-      process.stdout.write(`Fetching ${coverUrl} → ${destPath} … `)
+    const { destPath, localPath } = paths
+    const destRelative = relative(rootDir, destPath)
+    const fileRelative = relative(rootDir, filepath)
+    const exists = existsSync(destPath)
+
+    if (dryRun) {
+      results.push({
+        status: exists ? 'would-reuse' : 'would-fetch',
+        file: fileRelative,
+        url: coverUrl,
+        path: destRelative,
+        localPath,
+      })
+      continue
+    }
+
+    if (!exists) {
       try {
-        const res = await fetch(coverUrl)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        writeFileSync(destPath, Buffer.from(await res.arrayBuffer()))
-        console.log('done')
-        fetched++
+        await downloadCover(coverUrl, destPath, fetchImpl)
+        results.push({ status: 'fetched', file: fileRelative, url: coverUrl, path: destRelative, localPath })
       } catch (err) {
-        console.error(`FAILED: ${err.message}`)
+        results.push({ status: 'failed', file: fileRelative, url: coverUrl, path: destRelative, error: err.message })
         continue
       }
+    } else {
+      results.push({ status: 'reused', file: fileRelative, url: coverUrl, path: destRelative, localPath })
     }
 
     const rewritten = raw.replace(coverUrl, localPath)
-    if (rewritten !== raw) {
-      writeFileSync(filepath, rewritten)
-      rewrote++
-    }
+    if (rewritten !== raw) writeFileSync(filepath, rewritten)
   }
 
-  console.log(`\nDone. ${fetched} image(s) fetched, ${rewrote} exhibit(s) updated.`)
+  return results
 }
 
-main().catch(err => {
-  console.error(err)
-  process.exit(1)
-})
+export function summarizeCoverFetch(results, dryRun = false) {
+  const fetched = results.filter(result => result.status === 'fetched').length
+  const reused = results.filter(result => result.status === 'reused').length
+  const wouldFetch = results.filter(result => result.status === 'would-fetch').length
+  const wouldReuse = results.filter(result => result.status === 'would-reuse').length
+  const failed = results.filter(result => result.status === 'failed').length
+
+  if (dryRun) return `Covers would fetch ${wouldFetch} image(s), reuse ${wouldReuse}, failed ${failed}.`
+  return `Covers fetched ${fetched} image(s), reused ${reused}, failed ${failed}.`
+}
+
+async function main() {
+  const dryRun = process.argv.includes('--dry-run')
+  const results = await fetchCovers({ dryRun })
+  for (const result of results) {
+    if (result.status === 'failed') {
+      console.error(`Failed: ${result.file} (${result.error})`)
+    } else {
+      const verb = {
+        fetched: 'Fetched',
+        reused: 'Reused',
+        'would-fetch': 'Would fetch',
+        'would-reuse': 'Would reuse',
+      }[result.status]
+      console.log(`${verb}: ${result.url} -> ${result.path}`)
+    }
+  }
+  console.log(summarizeCoverFetch(results, dryRun))
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(err => {
+    console.error(err)
+    process.exit(1)
+  })
+}

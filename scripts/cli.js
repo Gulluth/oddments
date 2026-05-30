@@ -3,6 +3,7 @@ import { spawnSync } from 'child_process'
 import { cpSync, rmSync, existsSync, readdirSync, mkdirSync, copyFileSync, readFileSync, writeFileSync } from 'fs'
 import { resolve, dirname, join, relative } from 'path'
 import { fileURLToPath } from 'url'
+import { fetchCovers, summarizeCoverFetch } from './fetch-covers.js'
 import { importCsv, summarizeImport } from './import-csv.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -139,7 +140,28 @@ switch (command) {
     break
   }
 
+  case 'covers': {
+    const dryRun = args.includes('--dry-run')
+    const results = await fetchCovers({ rootDir: cwd, dryRun })
+
+    for (const result of results) {
+      if (result.status === 'failed') {
+        console.error(`Failed: ${result.file} (${result.error})`)
+      } else {
+        const verb = {
+          fetched: 'Fetched',
+          reused: 'Reused',
+          'would-fetch': 'Would fetch',
+          'would-reuse': 'Would reuse',
+        }[result.status]
+        console.log(`${verb}: ${result.url} -> ${result.path}`)
+      }
+    }
+    console.log(summarizeCoverFetch(results, dryRun))
+    break
+  }
+
   default:
-    console.error('Usage: oddments <build|dev|preview|init|import>')
+    console.error('Usage: oddments <build|dev|preview|init|import|covers>')
     process.exit(1)
 }

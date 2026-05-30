@@ -9,7 +9,7 @@ genre: horror
 summary: A one-session adventure for 3-5 players set in a crumbling watermill.
 cost: free
 license: CC BY 4.0
-cover-image:            # leave blank or set a URL; CI downloads external images automatically
+cover-image:            # leave blank, set a URL, or use `npx oddments covers` to save URLs locally
 tags:
   - one-shot
   - investigation
