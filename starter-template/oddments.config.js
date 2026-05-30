@@ -12,6 +12,14 @@ export default {
   // description: shown in the header subtitle and page meta tags.
   // description: "",
 
+  // icon: path to a custom SVG or PNG icon image in static/. When set, this
+  // appears before the title in the header.
+  // icon: "/icon.svg",
+
+  // logo: path to a custom SVG or PNG logo image in static/. When set, this
+  // replaces the icon and text title in the header.
+  // logo: "/logo.svg",
+
   // siteUrl: your deployed GitHub Pages URL. When set, the title links here.
   // Set this after your first deploy.
   // siteUrl: "https://username.github.io/my-catalog",
@@ -72,6 +80,39 @@ export default {
   //   cost:     { cloud: false, menu: true  },
   //   tags:     { cloud: false, menu: false },
   // },
+
+  // ── Footer ────────────────────────────────────────────────────────────────
+  // copyright: "(c) 2026 My Catalog",
+  // copyrightUrl: "https://example.com/license",
+  // showRss: true,
+  //
+  // Social/contact links are hidden until you provide a value.
+  // instagram: "",
+  // tiktok: "",
+  // facebook: "",
+  // twitter: "",
+  // bluesky: "",
+  // mastodon: "",
+  // itch: "",
+  // github: "",
+  // deviantart: "",
+  // behance: "",
+  // discord: "",
+  // signal: "",
+  // drivethrurpg: "",
+  // youtube: "",
+  // patreon: "",
+  // kofi: "",
+  // twitch: "",
+  // tumblr: "",
+  // reddit: "",
+  // threads: "",
+  // substack: "",
+  // kickstarter: "",
+  // backerkit: "",
+  // gumroad: "",
+  // email: "",
+  // website: "",
 
   // ── Community submissions ─────────────────────────────────────────────────
   // The /submit/ page lets visitors propose exhibits. Requires a backend

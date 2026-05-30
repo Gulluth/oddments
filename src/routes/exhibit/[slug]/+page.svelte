@@ -1,5 +1,6 @@
 <script lang="ts">
   import { base } from '$app/paths'
+  import Icon from '$lib/Icon.svelte'
   const { data } = $props()
   const exhibit = $derived(data.exhibit)
   const config = $derived(data.config)
@@ -152,9 +153,7 @@
       class="mt-auto btn preset-filled self-start inline-flex items-center gap-2"
     >
       {exhibit.source ? `Get it on ${exhibit.source}` : 'View Exhibit'}
-      <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6m0 0v6m0-6L10 14"/>
-      </svg>
+      <Icon name="external-link" size={16} />
     </a>
   {/if}
 {/snippet}

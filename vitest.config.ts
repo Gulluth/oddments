@@ -9,9 +9,7 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [svelte({
-    hot: !process.env.VITEST
-  })],
+  plugins: [svelte()],
   resolve: {
     conditions: ['browser'],
     alias: {
@@ -23,6 +21,7 @@ export default defineConfig({
     projects: [{
       extends: true,
       test: {
+        name: 'unit',
         environment: 'jsdom',
         setupFiles: ['./src/test/setup.ts'],
         include: ['src/**/*.test.ts'],
@@ -43,12 +42,6 @@ export default defineConfig({
         include: [
           '@storybook/addon-themes',
           '@skeletonlabs/skeleton-svelte',
-          'lucide-svelte/icons/chevron-left',
-          'lucide-svelte/icons/chevron-right',
-          'lucide-svelte/icons/arrow-right',
-          'lucide-svelte/icons/check',
-          'lucide-svelte/icons/x',
-          'lucide-svelte/icons/heart',
         ],
       },
       test: {

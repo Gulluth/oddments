@@ -14,6 +14,14 @@ export default {
   description:
     "An establishment of luxury and curiosity, for curious and unusual folk.",
 
+  // icon: path to a custom SVG or PNG icon image in static/. When set, this
+  // appears before the title in the header.
+  // icon: "/icon.svg",
+
+  // logo: path to a custom SVG or PNG logo image in static/. When set, this
+  // replaces the icon and text title in the header.
+  // logo: "/logo.svg",
+
   // siteUrl: public URL of your deployed site. When set, the site title in
   // the footer links here. Leave commented out if not yet deployed.
   siteUrl: "https://github.com/gulluth/oddments",
@@ -78,6 +86,39 @@ export default {
   // Example — dropdowns only, cost hidden:
   //   showTagCloud: false,
   //   filters: { cost: { cloud: false, menu: false } },
+
+  // ── Footer ────────────────────────────────────────────────────────────────
+  // copyright: "(c) 2026 My Catalog",
+  // copyrightUrl: "https://example.com/license",
+  // showRss: true,
+  //
+  // Social/contact links are hidden until you provide a value.
+  // instagram: "",
+  // tiktok: "",
+  // facebook: "",
+  // twitter: "",
+  // bluesky: "",
+  // mastodon: "",
+  // itch: "",
+  // github: "",
+  // deviantart: "",
+  // behance: "",
+  // discord: "",
+  // signal: "",
+  // drivethrurpg: "",
+  // youtube: "",
+  // patreon: "",
+  // kofi: "",
+  // twitch: "",
+  // tumblr: "",
+  // reddit: "",
+  // threads: "",
+  // substack: "",
+  // kickstarter: "",
+  // backerkit: "",
+  // gumroad: "",
+  // email: "",
+  // website: "",
 
   // ── Community submissions ─────────────────────────────────────────────────
   // The /submit/ page lets visitors propose exhibits. Requires a backend

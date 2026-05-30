@@ -26,7 +26,7 @@
 </script>
 
 <script lang="ts">
-  import Heart from 'lucide-svelte/icons/heart';
+  import Icon from '$lib/Icon.svelte';
 </script>
 
 <!-- Default: configurable via the Controls panel -->
@@ -60,16 +60,16 @@
 <Story name="WithIcon">
   <div class="flex items-center gap-3">
     <span class="badge preset-filled">
-      <Heart size={14} />
-      <span>Liked</span>
+      <Icon name="rss" size={14} />
+      <span>Feed</span>
     </span>
     <span class="badge preset-tonal-primary">
-      <Heart size={14} />
-      <span>Liked</span>
+      <Icon name="rss" size={14} />
+      <span>Feed</span>
     </span>
     <span class="badge preset-outlined-primary-500">
-      <Heart size={14} />
-      <span>Liked</span>
+      <Icon name="rss" size={14} />
+      <span>Feed</span>
     </span>
   </div>
 </Story>
@@ -78,13 +78,13 @@
 <Story name="IconOnly">
   <div class="flex items-center gap-3">
     <span class="badge-icon preset-filled">
-      <Heart size={16} />
+      <Icon name="rss" size={16} />
     </span>
     <span class="badge-icon preset-tonal-primary">
-      <Heart size={16} />
+      <Icon name="rss" size={16} />
     </span>
     <span class="badge-icon preset-outlined-primary-500">
-      <Heart size={16} />
+      <Icon name="rss" size={16} />
     </span>
   </div>
 </Story>

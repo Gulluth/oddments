@@ -15,6 +15,8 @@ export interface CustomField {
 
 export interface CatalogConfig {
   title: string
+  icon?: string
+  logo?: string
   description?: string
   theme?: string
   exhibitsPerPage?: number
@@ -27,6 +29,35 @@ export interface CatalogConfig {
   basePath?: string
   showCost?: boolean
   siteUrl?: string
+  copyright?: string
+  copyrightUrl?: string
+  showRss?: boolean
+  instagram?: string
+  tiktok?: string
+  facebook?: string
+  twitter?: string
+  bluesky?: string
+  mastodon?: string
+  itch?: string
+  github?: string
+  deviantart?: string
+  behance?: string
+  discord?: string
+  signal?: string
+  drivethrurpg?: string
+  youtube?: string
+  patreon?: string
+  kofi?: string
+  twitch?: string
+  tumblr?: string
+  reddit?: string
+  threads?: string
+  substack?: string
+  kickstarter?: string
+  backerkit?: string
+  gumroad?: string
+  email?: string
+  website?: string
   customCss?: string
   imageOrientation?: ImageOrientation
   cardLayout?: CardLayout

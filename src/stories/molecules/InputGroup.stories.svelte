@@ -7,15 +7,16 @@
   });
 </script>
 
+<script lang="ts">
+  import Icon from '$lib/Icon.svelte';
+</script>
+
 <!-- Search: exact pattern from SearchInput.svelte — text field + icon submit -->
 <Story name="Search">
   <form class="input-group w-72 grid-cols-[1fr_auto]">
     <input type="search" class="ig-input" placeholder="Search…" aria-label="Search" />
     <button type="submit" class="ig-cell preset-tonal" aria-label="Submit search">
-      <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <circle cx="11" cy="11" r="8" />
-        <path stroke-linecap="round" d="m21 21-4.35-4.35" />
-      </svg>
+      <Icon name="search" size={16} />
     </button>
   </form>
 </Story>
