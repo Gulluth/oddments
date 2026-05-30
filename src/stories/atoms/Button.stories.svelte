@@ -37,7 +37,7 @@
 </script>
 
 <script lang="ts">
-  import ArrowRight from 'lucide-svelte/icons/arrow-right';
+  import Icon from '$lib/Icon.svelte';
 
   let activeMonth = $state('January');
   const months = ['January', 'February', 'March'];
@@ -86,15 +86,15 @@
   <div class="flex items-center gap-3">
     <button type="button" class="btn preset-filled">
       <span>Continue</span>
-      <ArrowRight size={18} />
+      <Icon name="chevron-right" size={18} />
     </button>
     <button type="button" class="btn preset-tonal-primary">
       <span>Continue</span>
-      <ArrowRight size={18} />
+      <Icon name="chevron-right" size={18} />
     </button>
     <button type="button" class="btn preset-outlined-primary-500">
       <span>Continue</span>
-      <ArrowRight size={18} />
+      <Icon name="chevron-right" size={18} />
     </button>
   </div>
 </Story>
@@ -103,13 +103,13 @@
 <Story name="IconOnly">
   <div class="flex items-center gap-3">
     <button type="button" class="btn-icon preset-filled" title="Go" aria-label="Go">
-      <ArrowRight size={18} />
+      <Icon name="chevron-right" size={18} />
     </button>
     <button type="button" class="btn-icon preset-tonal-primary" title="Go" aria-label="Go">
-      <ArrowRight size={18} />
+      <Icon name="chevron-right" size={18} />
     </button>
     <button type="button" class="btn-icon preset-outlined-primary-500" title="Go" aria-label="Go">
-      <ArrowRight size={18} />
+      <Icon name="chevron-right" size={18} />
     </button>
   </div>
 </Story>

@@ -5,6 +5,8 @@
   import type { ImageOrientation } from '$lib/config.js'
   import CardGrid from '$lib/CardGrid.svelte'
   import FilterBar from '$lib/FilterBar.svelte'
+  import Icon from '$lib/Icon.svelte'
+  import MarkdownSection from '$lib/MarkdownSection.svelte'
   import TagCloud from '$lib/TagCloud.svelte'
   import Pagination from '$lib/Pagination.svelte'
   import { sortExhibits } from '$lib/filters.js'
@@ -191,6 +193,10 @@
 {/snippet}
 
 <div class="px-4 py-6 max-w-7xl mx-auto">
+  {#if data.hero}
+    <MarkdownSection html={data.hero.html} placement="hero" />
+  {/if}
+
   <div class="flex flex-col gap-3 mb-6">
     <!-- Search + mobile filter toggle -->
     <div class="flex gap-2 items-center">
@@ -243,9 +249,7 @@
           aria-label="Clear tag filter: {filterTag}"
         >
           {filterTag}
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-          </svg>
+          <Icon name="x" size={12} />
         </button>
       </div>
     {/if}
@@ -280,5 +284,9 @@
         />
       </div>
     {/if}
+  {/if}
+
+  {#if data.body}
+    <MarkdownSection html={data.body.html} placement="body" />
   {/if}
 </div>

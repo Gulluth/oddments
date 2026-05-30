@@ -8,28 +8,40 @@
 </script>
 
 <script lang="ts">
-  import { base } from '$app/paths';
   import { config } from '$lib/catalog.js';
+  import Footer from '$lib/Footer.svelte';
+
+  const custom = {
+    ...config,
+    copyright: '(c) 2026 My Catalog',
+    copyrightUrl: 'https://example.com/license',
+    socials: {
+      ...config.socials,
+      itch: 'https://example.itch.io',
+      github: 'https://github.com/example',
+      email: 'hello@example.com',
+    },
+  };
+
+  const rssOnly = {
+    ...config,
+    copyright: '',
+    copyrightUrl: '',
+    socials: { ...config.socials },
+  };
 </script>
 
-<!-- Default: site title links to siteUrl (set in oddments.config.js) -->
+<!-- Default: configured footer from oddments.config.js -->
 <Story name="Default">
-  <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center flex flex-wrap justify-center gap-x-4 gap-y-1">
-    {#if config.siteUrl}
-      <a href={config.siteUrl} class="hover:opacity-80" target="_blank" rel="noopener">{config.title}</a>
-    {:else}
-      <span>{config.title}</span>
-    {/if}
-    <a href="https://opensource.org/licenses/MIT" class="hover:opacity-80" target="_blank" rel="noopener">MIT License</a>
-    <a href="{base}/feed.xml" class="hover:opacity-80">RSS Feed</a>
-  </footer>
+  <Footer />
 </Story>
 
-<!-- NoSiteUrl: title is plain text when siteUrl is not configured -->
-<Story name="NoSiteUrl">
-  <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center flex flex-wrap justify-center gap-x-4 gap-y-1">
-    <span>{config.title}</span>
-    <a href="https://opensource.org/licenses/MIT" class="hover:opacity-80" target="_blank" rel="noopener">MIT License</a>
-    <a href="{base}/feed.xml" class="hover:opacity-80">RSS Feed</a>
-  </footer>
+<!-- Custom: copyright plus enabled social links -->
+<Story name="Custom">
+  <Footer config={custom} />
+</Story>
+
+<!-- RssOnly: no optional copyright or social links -->
+<Story name="RssOnly">
+  <Footer config={rssOnly} />
 </Story>

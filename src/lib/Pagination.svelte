@@ -1,6 +1,5 @@
 <script lang="ts">
-  import ChevronLeft from 'lucide-svelte/icons/chevron-left'
-  import ChevronRight from 'lucide-svelte/icons/chevron-right'
+  import Icon from './Icon.svelte'
   import { Pagination } from '@skeletonlabs/skeleton-svelte'
 
   let {
@@ -16,7 +15,7 @@
 
 <Pagination {count} {pageSize} {page} onPageChange={(e) => { page = e.page }}>
   <Pagination.PrevTrigger class="btn-icon preset-outlined">
-    <ChevronLeft size={14} />
+    <Icon name="chevron-left" size={14} />
   </Pagination.PrevTrigger>
 
   <Pagination.Context>
@@ -34,6 +33,6 @@
   </Pagination.Context>
 
   <Pagination.NextTrigger class="btn-icon preset-outlined">
-    <ChevronRight size={14} />
+    <Icon name="chevron-right" size={14} />
   </Pagination.NextTrigger>
 </Pagination>

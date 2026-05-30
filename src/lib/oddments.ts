@@ -61,6 +61,8 @@ export function parseOddments(dir = 'oddments', customFields: CustomField[] = []
   return getMarkdownFiles(dir).flatMap(filepath => {
     try {
       const { data, content } = matter(readFileSync(filepath, 'utf-8'))
+      if (data.published === false) return []
+
       const slug = basename(filepath, '.md').replace(/^\d{4}-\d{2}-\d{2}-/, '')
 
       const meta: Record<string, string | string[]> = {}

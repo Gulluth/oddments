@@ -135,6 +135,24 @@ describe("parseOddments — body content", () => {
   });
 });
 
+describe("parseOddments — published frontmatter", () => {
+  const exhibits = parseOddments(FIXTURES);
+
+  it("excludes exhibits with published: false", () => {
+    expect(exhibits.find((p) => p.slug === "unpublished-exhibit")).toBeUndefined();
+  });
+
+  it("includes exhibits with published: true", () => {
+    const exhibit = exhibits.find((p) => p.slug === "published-exhibit");
+    expect(exhibit).toBeDefined();
+    expect(exhibit!.name).toBe("Published Exhibit");
+  });
+
+  it("includes exhibits when published is missing", () => {
+    expect(exhibits.find((p) => p.slug === "legacy-subtexts")).toBeDefined();
+  });
+});
+
 describe("parseOddments — customFields / meta", () => {
   it("collects declared customFields into meta", () => {
     const exhibits = parseOddments(FIXTURES, [

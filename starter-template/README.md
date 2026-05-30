@@ -23,7 +23,7 @@ npm run dev       # preview at http://localhost:5173
 
 Each exhibit is a Markdown file with YAML frontmatter in `oddments/`.
 
-**Filename format:** `slug.md` — or `YYYY-MM-DD-slug.md` if you want to control sort order by publication date.
+**Filename format:** `slug.md` or `YYYY-MM-DD-slug.md` if you want to control sort order by publication date.
 
 ```yaml
 ---
@@ -48,12 +48,38 @@ subtexts:
   - "Second bullet point."
 featured: true                # featured exhibits get a highlighted card accent
 imageOrientation: portrait    # landscape | portrait | none — overrides global config
+published: false              # optional — hide this exhibit without deleting it
 ---
 
 Optional markdown body rendered on the exhibit page. Delete this if unused.
 ```
 
 Only `name` is required. Every other field degrades gracefully when absent.
+
+Exhibits are published by default. Add `published: false` to keep a file in
+your repo while excluding it from the catalog, search, filters, exhibit pages,
+and RSS feed.
+
+## Page sections
+
+Add optional Markdown files in the root of your repository:
+
+```sh
+hero.md   # appears above the catalog
+body.md   # appears below the catalog
+```
+
+Both files support frontmatter:
+
+```md
+---
+published: false
+---
+
+# Hidden for now
+```
+
+Missing `published` means the section is published.
 
 ### Cover images
 
@@ -89,12 +115,19 @@ Edit `oddments.config.js`. Every option is documented inline. Common settings:
 export default {
   title: "My Catalog",
   // description: "",
+  // icon: "/icon.svg",      // small custom SVG or PNG shown before the title
+  // logo: "/logo.svg",      // custom SVG or PNG that replaces icon + title
   // siteUrl: "https://username.github.io/my-catalog",
   // theme: "vintage",        // cerberus | wintry | vintage | crimson | pine | modern
   // cardLayout: 'masonry',   // masonry (default) | grid
   // exhibitsPerPage: 24,
   // imageOrientation: 'landscape',  // landscape | portrait | none
   // showCost: false,
+  // copyright: "(c) 2026 My Catalog",
+  // copyrightUrl: "https://example.com/license",
+  // instagram: "https://instagram.com/example",
+  // itch: "https://example.itch.io",
+  // github: "https://github.com/example",
 }
 ```
 
@@ -194,8 +227,3 @@ Then add the corresponding keys to your exhibit frontmatter. Fields not declared
 ## Bulk import from CSV
 
 If you have existing data in a spreadsheet, the included `csv_to_oddments.py` script (in the oddments repo) can generate markdown files. See the script header for column format details.
-
-## Contributing
-
-- **To report bugs:** [github.com/gulluth/oddments/issues](https://github.com/gulluth/oddments/issues)
-- **Contributing to the framework:** [CONTRIBUTING.md](https://github.com/gulluth/oddments/blob/main/CONTRIBUTING.md)

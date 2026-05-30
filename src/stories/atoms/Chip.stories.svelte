@@ -31,8 +31,7 @@
 </script>
 
 <script lang="ts">
-  import Check from 'lucide-svelte/icons/check';
-  import X from 'lucide-svelte/icons/x';
+  import Icon from '$lib/Icon.svelte';
 
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   let selectedSize = $state('M');
@@ -80,16 +79,16 @@
 <Story name="WithIcon">
   <div class="flex items-center gap-3">
     <button type="button" class="chip preset-filled">
-      <span>Selected</span>
-      <Check size={14} />
+      <span>Remove</span>
+      <Icon name="x" size={14} />
     </button>
     <button type="button" class="chip preset-tonal-primary">
-      <span>Selected</span>
-      <Check size={14} />
+      <span>Remove</span>
+      <Icon name="x" size={14} />
     </button>
     <button type="button" class="chip preset-outlined-primary-500">
       <span>Remove</span>
-      <X size={14} />
+      <Icon name="x" size={14} />
     </button>
   </div>
 </Story>
@@ -97,14 +96,14 @@
 <!-- IconOnly: chip-icon for square icon chips -->
 <Story name="IconOnly">
   <div class="flex items-center gap-3">
-    <button type="button" class="chip-icon preset-filled" aria-label="Confirm">
-      <Check size={16} />
+    <button type="button" class="chip-icon preset-filled" aria-label="Remove">
+      <Icon name="x" size={16} />
     </button>
-    <button type="button" class="chip-icon preset-tonal-primary" aria-label="Confirm">
-      <Check size={16} />
+    <button type="button" class="chip-icon preset-tonal-primary" aria-label="Remove">
+      <Icon name="x" size={16} />
     </button>
     <button type="button" class="chip-icon preset-outlined-primary-500" aria-label="Remove">
-      <X size={16} />
+      <Icon name="x" size={16} />
     </button>
   </div>
 </Story>
@@ -143,9 +142,6 @@
         class="chip {selectedTags.has(tag) ? 'preset-filled' : 'preset-tonal-surface'}"
         onclick={() => toggleTag(tag)}
       >
-        {#if selectedTags.has(tag)}
-          <Check size={14} />
-        {/if}
         <span>{tag}</span>
       </button>
     {/each}

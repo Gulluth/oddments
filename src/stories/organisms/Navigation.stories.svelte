@@ -8,6 +8,7 @@
 </script>
 
 <script lang="ts">
+  import Icon from '$lib/Icon.svelte';
   import TagCloud from '$lib/TagCloud.svelte';
   import FilterBar from '$lib/FilterBar.svelte';
 
@@ -26,9 +27,7 @@
     <div class="flex items-center gap-3">
       <a href="/submit/" class="text-sm opacity-60 hover:opacity-100 transition-opacity">Submit</a>
       <button class="btn-icon preset-tonal size-8" aria-label="Toggle dark mode">
-        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-        </svg>
+        <Icon name="moon" size={16} />
       </button>
     </div>
   </header>
